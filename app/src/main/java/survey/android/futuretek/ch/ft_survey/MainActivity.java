@@ -27,18 +27,12 @@ public class MainActivity extends BaseActivity {
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
         nextBtn = (Button) findViewById(R.id.nextBtn);
-        nextBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, AboutFTActivity.class));
-            }
+        nextBtn.setOnClickListener(view -> {
+             startActivity(new Intent(MainActivity.this, AboutFTActivity.class));
         });
 
         View mainTextView = findViewById(R.id.textLayout);
-        mainTextView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                requestUserName();
-            }
-        });
+        mainTextView.setOnClickListener(v -> requestUserName());
 
     }
 
@@ -74,22 +68,18 @@ public class MainActivity extends BaseActivity {
     }
 
     private void requestUserName(){
-        if(userName==null){
+        if(userName==null || userName.isEmpty()){
             openInputDialog(new View.OnClickListener() {
                 public void onClick(View v) {
+
                     EditText userInput = ((EditText) v.findViewById(R.id.userInput));
-                    userName = null;
-                    try {
-                        userName = getDatabase().get("usersName");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    userName = userInput.getText().toString();
                     if (userName == null || userName.isEmpty()) {
                         List<String> textArray = new ArrayList<String>(1);
                         textArray.add("Didn't get your name...");
                         animateText(textArray, new AnimationListDone() {
                             public void done() {
-                                activateNextButton();
+                                requestUserName();
                             }
                         });
                     } else {

@@ -13,10 +13,9 @@ import survey.android.futuretek.ch.ft_survey.R;
 import survey.android.futuretek.ch.ft_survey.SkillsActivity;
 
 /**
- * Used to insert a skill on a dialog.
- * The skill is then returned from the callback function
+ * Used to retrieve a skill from a dialog; the skill is then returned from the callback function
  */
-public class SkillChangeEvent implements View.OnClickListener {
+public class SkillDialogListener implements View.OnClickListener {
 
     private final Dialog dialog;
     private final Context context;
@@ -25,7 +24,7 @@ public class SkillChangeEvent implements View.OnClickListener {
 
     private final String EMPTY_STRING = "";
 
-    public SkillChangeEvent(final Context context, final LayoutInflater layoutInflater, final Callback<String> callback) {
+    public SkillDialogListener(final Context context, final LayoutInflater layoutInflater, final Callback<String> callback) {
         this.context = context;
         this.dialog = new Dialog(this.context);
         this.layoutInflater = layoutInflater;
@@ -38,14 +37,12 @@ public class SkillChangeEvent implements View.OnClickListener {
         dialog.setContentView(addSkillDialogView);
         final TextView textInput = (TextView) addSkillDialogView.findViewById(R.id.userInput);
         final Button okBtn = (Button) addSkillDialogView.findViewById(R.id.okBtn);
-        okBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                final String skillName = textInput.getText().toString();
-                textInput.setText(EMPTY_STRING);
-                dialog.hide();
-                callback.callback(skillName);
-            }
+        okBtn.setOnClickListener(view1 -> {
+            // After having pressed on the dialog's button, get the skill name, clear the textInput and return to the callback the wanted name
+            final String skillName = textInput.getText().toString();
+            textInput.setText(EMPTY_STRING);
+            dialog.hide();
+            callback.callback(skillName);
         });
         dialog.show();
     }

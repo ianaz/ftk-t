@@ -97,7 +97,7 @@ public class Database extends SQLiteOpenHelper {
 		return defaultVal;
 	}
 
-	private int update(String key, String value) {
+	public int update(String key, String value) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put(fieldVal, value); // get author
